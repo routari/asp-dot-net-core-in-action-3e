@@ -1,67 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace CurrencyConverter.Pages
-{
-    public class ConvertModel : PageModel
-    {
-        [BindProperty]
-        public InputModel Input { get; set; }
+namespace CurrencyConverter.Pages;
 
-        public SelectListItem[] CurrencyCodes { get; } =
-        {
+public class ConvertModel : PageModel
+{
+    [BindProperty]
+    public InputModel Input { get; set; } = new();
+
+    public SelectListItem[] CurrencyCodes { get; } =
+    {
             new SelectListItem{Text="GBP", Value = "GBP"},
             new SelectListItem{Text="USD", Value = "USD"},
             new SelectListItem{Text="CAD", Value = "CAD"},
             new SelectListItem{Text="EUR", Value = "EUR"},
         };
 
-        public void OnGet()
+    // public void OnGet()
+    // {
+    //     Input = new InputModel();
+    // }
+
+    public IActionResult OnPost()
+    {
+        if (ModelState.IsValid && Input.CurrencyFrom == Input.CurrencyTo)
         {
-            Input = new InputModel();
+            ModelState.AddModelError(string.Empty, "Cannot convert currency to itself");
         }
 
-        public IActionResult OnPost()
+        if (!ModelState.IsValid)
         {
-            if (Input.CurrencyFrom == Input.CurrencyTo)
-            {
-                ModelState.AddModelError(string.Empty, "Cannot convert currency to itself");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            // Store the valid values somewhere (e.g. database), 
-            // do the conversion etc
-
-            return RedirectToPage("Success");
+            return Page();
         }
 
-        public class InputModel
-        {
-            [Required]
-            [StringLength(3, MinimumLength = 3)]
-            [CurrencyCode("GBP", "USD", "CAD", "EUR")]
-            [Display(Name = "Currency From")]
-            public string CurrencyFrom { get; set; }
+        // Store the valid values somewhere (e.g. database), 
+        // do the conversion etc
 
-            [Required]
-            [StringLength(3, MinimumLength = 3)]
-            [CurrencyCode("GBP", "USD", "CAD", "EUR")]
-            [Display(Name = "Currency To")]
-            public string CurrencyTo { get; set; }
+        return RedirectToPage("Success");
+    }
 
-            [Required]
-            [Range(1, 1000)]
-            public int Quantity { get; set; }
-        }
+    public class InputModel
+    {
+        [Required]
+        [StringLength(3, MinimumLength = 3)]
+        [CurrencyCode("GBP", "USD", "CAD", "EUR")]
+        [Display(Name = "Currency From")]
+        public string? CurrencyFrom { get; set; }
+
+        [Required]
+        [StringLength(3, MinimumLength = 3)]
+        [CurrencyCode("GBP", "USD", "CAD", "EUR")]
+        [Display(Name = "Currency To")]
+        public string? CurrencyTo { get; set; }
+
+        [Required]
+        [Range(1, 1000)]
+        public int Quantity { get; set; }
     }
 }

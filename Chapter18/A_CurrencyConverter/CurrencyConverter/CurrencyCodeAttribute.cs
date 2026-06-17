@@ -1,27 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
-namespace CurrencyConverter
+namespace CurrencyConverter;
+
+public class CurrencyCodeAttribute(params string[] allowedCodes) : ValidationAttribute
 {
-    public class CurrencyCodeAttribute : ValidationAttribute
+    protected override ValidationResult? IsValid(
+        object? value,
+        ValidationContext validationContext)
     {
-        private readonly string[] _allowedCodes;
-        public CurrencyCodeAttribute(params string[] allowedCodes)
+        var code = value as string;
+        if (code == null || !allowedCodes.Contains(code))
         {
-            _allowedCodes = allowedCodes;
+            return new ValidationResult("Not a valid currency code");
         }
 
-        protected override ValidationResult IsValid(
-            object value,
-            ValidationContext validationContext)
-        {
-            var code = value as string;
-            if (code == null || !_allowedCodes.Contains(code))
-            {
-                return new ValidationResult("Not a valid currency code");
-            }
-
-            return ValidationResult.Success;
-        }
+        return ValidationResult.Success;
     }
 }
+
