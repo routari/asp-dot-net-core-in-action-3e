@@ -12,10 +12,12 @@ public class ConvertModel : PageModel
 
     public SelectListItem[] CurrencyCodes { get; } =
     {
-            new SelectListItem{Text="GBP", Value = "GBP"},
-            new SelectListItem{Text="USD", Value = "USD"},
-            new SelectListItem{Text="CAD", Value = "CAD"},
-            new SelectListItem{Text="EUR", Value = "EUR"},
+            // Select Tag Helper only works with SelectListItem elements.
+            new SelectListItem{Text="British Pounds", Value = "GBP"},
+            new SelectListItem{Text="US Dollars", Value = "USD"},
+            new SelectListItem{Text="Canadian Dollars", Value = "CAD"},
+            new SelectListItem{Text="EU Euros", Value = "EUR"},
+            new SelectListItem{Text="Japanese Yen", Value = "JPY"},
         };
 
     // public void OnGet()
@@ -45,13 +47,13 @@ public class ConvertModel : PageModel
     {
         [Required]
         [StringLength(3, MinimumLength = 3)]
-        [CurrencyCode("GBP", "USD", "CAD", "EUR")]
+        [CurrencyCode("GBP", "USD", "CAD", "EUR", "JPY")]
         [Display(Name = "Currency From")]
         public string? CurrencyFrom { get; set; }
 
         [Required]
         [StringLength(3, MinimumLength = 3)]
-        [CurrencyCode("GBP", "USD", "CAD", "EUR")]
+        [CurrencyCode("GBP", "USD", "CAD", "EUR", "JPY")]
         [Display(Name = "Currency To")]
         public string? CurrencyTo { get; set; }
 

@@ -10,7 +10,7 @@
     <div class="form-group">
         <label asp-for="Input.CurrencyFrom"></label>
         <select class="form-control dropdown" asp-for="Input.CurrencyFrom" asp-items="Model.CurrencyCodes">
-            <option value=""></option>
+            <partial name="_NoneSelectedOption" />
         </select>
         <span asp-validation-for="Input.CurrencyFrom" class="text-danger"></span>
     </div>
@@ -23,10 +23,15 @@
         <label asp-for="Input.CurrencyTo"></label>
         <!--<input class="form-control" asp-for="Input.CurrencyTo" />-->
         <select class="form-control dropdown" asp-for="Input.CurrencyTo" asp-items="Model.CurrencyCodes">
-            <option value=""></option>
+            <!--<option value=""></option>-->
+            <partial name="_NoneSelectedOption" />
         </select>
         <span asp-validation-for="Input.CurrencyTo" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     <div asp-validation-summary="All" class="text-danger"></div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
