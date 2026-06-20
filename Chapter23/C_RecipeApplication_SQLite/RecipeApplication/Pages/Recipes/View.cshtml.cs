@@ -6,36 +6,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RecipeApplication.Models;
 
-namespace RecipeApplication.Pages.Recipes
+namespace RecipeApplication.Pages.Recipes;
+
+public class ViewModel : PageModel
 {
-    public class ViewModel : PageModel
+    public required RecipeDetailViewModel Recipe { get; set; }
+    private readonly RecipeService _service;
+    public ViewModel(RecipeService service)
     {
-        public required RecipeDetailViewModel Recipe { get; set; }
-        private readonly RecipeService _service;
-        public ViewModel(RecipeService service)
+        _service = service;
+    }
+
+    public async Task<IActionResult> OnGetAsync(int id)
+    {
+        var recipe = await _service.GetRecipeDetail(id);
+        if (recipe is null)
         {
-            _service = service;
+            // If id is not for a valid Recipe, generate a 404 error page
+            // TODO: Add status code pages middleware to show friendly 404 page
+            return NotFound();
         }
 
-        public async Task<IActionResult> OnGetAsync(int id)
-        {
-            var recipe = await _service.GetRecipeDetail(id);
-            if (recipe is null)
-            {
-                // If id is not for a valid Recipe, generate a 404 error page
-                // TODO: Add status code pages middleware to show friendly 404 page
-                return NotFound();
-            }
+        Recipe = recipe;
+        return Page();
+    }
 
-            Recipe = recipe;
-            return Page();
-        }
+    public async Task<IActionResult> OnPostDeleteAsync(int id)
+    {
+        await _service.DeleteRecipe(id);
 
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
-        {
-            await _service.DeleteRecipe(id);
-
-            return RedirectToPage("/Index");
-        }
+        return RedirectToPage("/Index");
     }
 }

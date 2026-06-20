@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using RecipeApplication.Data;
+﻿using RecipeApplication.Data;
 
-namespace RecipeApplication.Models
+namespace RecipeApplication.Models;
+
+public class CreateRecipeCommand : EditRecipeBase
 {
-    public class CreateRecipeCommand : EditRecipeBase
-    {
-        public IList<CreateIngredientCommand> Ingredients { get; set; } = new List<CreateIngredientCommand>();
+    public IList<CreateIngredientCommand> Ingredients { get; set; } = new List<CreateIngredientCommand>();
 
-        public Recipe ToRecipe()
+    public Recipe ToRecipe()
+    {
+        return new Recipe
         {
-            return new Recipe
-            {
-                Name = Name ?? string.Empty,
-                TimeToCook = new TimeSpan(TimeToCookHrs, TimeToCookMins, 0),
-                Method = Method ?? string.Empty,
-                IsVegetarian = IsVegetarian,
-                IsVegan = IsVegan,
-                Ingredients = Ingredients.Select(x => x.ToIngredient()).ToList()
-            };
-        }
+            Name = Name ?? string.Empty,
+            TimeToCook = new TimeSpan(TimeToCookHrs, TimeToCookMins, 0),
+            Method = Method ?? string.Empty,
+            IsVegetarian = IsVegetarian,
+            IsVegan = IsVegan,
+            Ingredients = Ingredients.Select(x => x.ToIngredient()).ToList()
+        };
     }
 }
+

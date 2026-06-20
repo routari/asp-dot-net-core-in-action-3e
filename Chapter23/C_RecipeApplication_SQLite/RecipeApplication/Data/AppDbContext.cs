@@ -1,15 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RecipeApplication.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
-
-    public DbSet<Recipe> Recipes { get; set; }
+    public DbSet<Recipe> Recipes { get; set; } = null!;
 }

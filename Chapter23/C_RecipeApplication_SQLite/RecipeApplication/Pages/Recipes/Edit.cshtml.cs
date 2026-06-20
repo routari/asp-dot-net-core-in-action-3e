@@ -7,55 +7,54 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using RecipeApplication.Data;
 using RecipeApplication.Models;
 
-namespace RecipeApplication.Pages.Recipes
+namespace RecipeApplication.Pages.Recipes;
+
+public class EditModel : PageModel
 {
-    public class EditModel : PageModel
+    [BindProperty]
+    public required UpdateRecipeCommand Input { get; set; }
+    private readonly RecipeService _service;
+
+    public EditModel(RecipeService service)
     {
-        [BindProperty]
-        public required UpdateRecipeCommand Input { get; set; }
-        private readonly RecipeService _service;
+        _service = service;
+    }
 
-        public EditModel(RecipeService service)
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var input = await _service.GetRecipeForUpdate(id);
+        if (input is null)
         {
-            _service = service;
+            // If id is not for a valid Recipe, generate a 404 error page
+            // TODO: Add status code pages middleware to show friendly 404 page
+            return NotFound();
         }
 
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var input = await _service.GetRecipeForUpdate(id);
-            if (input is null)
-            {
-                // If id is not for a valid Recipe, generate a 404 error page
-                // TODO: Add status code pages middleware to show friendly 404 page
-                return NotFound();
-            }
+        Input = input;
+        return Page();
+    }
 
-            Input = input;
-            return Page();
+    public async Task<IActionResult> OnPostAsync()
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                await _service.UpdateRecipe(Input);
+                return RedirectToPage("View", new { id = Input.Id });
+            }
+        }
+        catch (Exception)
+        {
+            // TODO: Log error
+            // Add a model-level error by using an empty string key
+            ModelState.AddModelError(
+                string.Empty,
+                "An error occured saving the recipe"
+                );
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    await _service.UpdateRecipe(Input);
-                    return RedirectToPage("View", new { id = Input.Id });
-                }
-            }
-            catch (Exception)
-            {
-                // TODO: Log error
-                // Add a model-level error by using an empty string key
-                ModelState.AddModelError(
-                    string.Empty,
-                    "An error occured saving the recipe"
-                    );
-            }
-
-            //If we got to here, something went wrong
-            return Page();
-        }
+        //If we got to here, something went wrong
+        return Page();
     }
 }
