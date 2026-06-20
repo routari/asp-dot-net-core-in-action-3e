@@ -11,14 +11,14 @@ namespace RecipeApplication.Pages.Recipes
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public CreateRecipeCommand Input { get; set; }
+        public required CreateRecipeCommand Input { get; set; }
         private readonly RecipeService _service;
 
         public CreateModel(RecipeService service)
         {
             _service = service;
         }
-        
+
         public void OnGet()
         {
             Input = new CreateRecipeCommand();

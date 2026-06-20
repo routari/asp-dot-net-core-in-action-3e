@@ -13,12 +13,12 @@ namespace RecipeApplication.Models
         {
             return new Recipe
             {
-                Name = Name,
+                Name = Name ?? string.Empty,
                 TimeToCook = new TimeSpan(TimeToCookHrs, TimeToCookMins, 0),
-                Method = Method,
+                Method = Method ?? string.Empty,
                 IsVegetarian = IsVegetarian,
                 IsVegan = IsVegan,
-                Ingredients = Ingredients?.Select(x=>x.ToIngredient()).ToList()
+                Ingredients = Ingredients?.Select(x => x.ToIngredient()).ToList()
             };
         }
     }

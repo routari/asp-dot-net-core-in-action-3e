@@ -10,7 +10,7 @@ namespace RecipeApplication.Pages.Recipes
 {
     public class ViewModel : PageModel
     {
-        public RecipeDetailViewModel Recipe { get; set; }
+        public required RecipeDetailViewModel Recipe { get; set; }
         private readonly RecipeService _service;
         public ViewModel(RecipeService service)
         {

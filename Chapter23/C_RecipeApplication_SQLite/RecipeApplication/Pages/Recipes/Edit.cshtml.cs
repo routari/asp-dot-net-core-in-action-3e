@@ -12,7 +12,7 @@ namespace RecipeApplication.Pages.Recipes
     public class EditModel : PageModel
     {
         [BindProperty]
-        public UpdateRecipeCommand Input { get; set; }
+        public required UpdateRecipeCommand Input { get; set; }
         private readonly RecipeService _service;
 
         public EditModel(RecipeService service)
