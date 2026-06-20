@@ -19,13 +19,15 @@ namespace RecipeApplication.Pages.Recipes
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Recipe = await _service.GetRecipeDetail(id);
-            if (Recipe is null)
+            var recipe = await _service.GetRecipeDetail(id);
+            if (recipe is null)
             {
                 // If id is not for a valid Recipe, generate a 404 error page
                 // TODO: Add status code pages middleware to show friendly 404 page
                 return NotFound();
             }
+
+            Recipe = recipe;
             return Page();
         }
 

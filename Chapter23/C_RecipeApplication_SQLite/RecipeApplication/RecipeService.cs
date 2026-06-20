@@ -40,7 +40,7 @@ namespace RecipeApplication
                 .AnyAsync();
         }
 
-        public async Task<RecipeDetailViewModel> GetRecipeDetail(int id)
+        public async Task<RecipeDetailViewModel?> GetRecipeDetail(int id)
         {
             return await _context.Recipes
                 .Where(x => x.RecipeId == id)
@@ -62,7 +62,7 @@ namespace RecipeApplication
         }
 
 
-        public async Task<UpdateRecipeCommand> GetRecipeForUpdate(int recipeId)
+        public async Task<UpdateRecipeCommand?> GetRecipeForUpdate(int recipeId)
         {
             return await _context.Recipes
                 .Where(x => x.RecipeId == recipeId)

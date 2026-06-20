@@ -12,7 +12,7 @@ namespace RecipeApplication.Pages
     public class IndexModel : PageModel
     {
         private readonly RecipeService _service;
-        public IEnumerable<RecipeSummaryViewModel> Recipes { get; private set; }
+        public IEnumerable<RecipeSummaryViewModel> Recipes { get; private set; } = Array.Empty<RecipeSummaryViewModel>();
 
         public IndexModel(RecipeService service)
         {

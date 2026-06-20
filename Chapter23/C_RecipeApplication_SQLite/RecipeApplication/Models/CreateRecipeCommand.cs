@@ -18,7 +18,7 @@ namespace RecipeApplication.Models
                 Method = Method ?? string.Empty,
                 IsVegetarian = IsVegetarian,
                 IsVegan = IsVegan,
-                Ingredients = Ingredients?.Select(x => x.ToIngredient()).ToList()
+                Ingredients = Ingredients.Select(x => x.ToIngredient()).ToList()
             };
         }
     }

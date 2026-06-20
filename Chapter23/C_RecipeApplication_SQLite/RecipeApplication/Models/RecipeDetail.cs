@@ -12,7 +12,7 @@ namespace RecipeApplication.Models
         public string? Method { get; set; }
         public DateTimeOffset LastModified { get; set; }
 
-        public IEnumerable<Item>? Ingredients { get; set; }
+        public IEnumerable<Item> Ingredients { get; set; } = Array.Empty<Item>();
 
         public class Item
         {
