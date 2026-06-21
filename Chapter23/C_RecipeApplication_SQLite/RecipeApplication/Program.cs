@@ -11,6 +11,11 @@ builder.Services.AddRazorPages();
 var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connString!));
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+    options.SignIn.RequireConfirmedAccount = true)
+        .AddEntityFrameworkStores<AppDbContext>();
+
 builder.Services.AddScoped<RecipeService>();
 
 #endregion
@@ -31,6 +36,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 #endregion

@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RecipeApplication.Models;
 
 namespace RecipeApplication.Pages.Recipes;
 
-public class CreateModel : PageModel
+public class CreateModel(RecipeService service) : PageModel
 {
     [BindProperty]
     public required CreateRecipeCommand Input { get; set; }
-    private readonly RecipeService _service;
-
-    public CreateModel(RecipeService service)
-    {
-        _service = service;
-    }
 
     public void OnGet()
     {
@@ -30,7 +20,7 @@ public class CreateModel : PageModel
         {
             if (ModelState.IsValid)
             {
-                var id = await _service.CreateRecipe(Input);
+                var id = await service.CreateRecipe(Input);
                 return RedirectToPage("View", new { id = id });
             }
         }

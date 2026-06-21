@@ -6,7 +6,7 @@ namespace RecipeApplication.Models;
 public class CreateIngredientCommand
 {
     [Required, StringLength(100)]
-    public string? Name { get; set; }
+    public required string Name { get; set; }
     [Range(0, int.MaxValue)]
     public decimal Quantity { get; set; }
     [StringLength(20)]
@@ -16,7 +16,7 @@ public class CreateIngredientCommand
     {
         return new Ingredient
         {
-            Name = Name ?? string.Empty,
+            Name = Name,
             Quantity = Quantity,
             Unit = Unit ?? string.Empty,
         };

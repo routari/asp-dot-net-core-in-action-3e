@@ -2,17 +2,17 @@
 
 public class RecipeDetailViewModel
 {
-    public int Id { get; set; }
-    public string? Name { get; set; }
-    public string? Method { get; set; }
-    public DateTimeOffset LastModified { get; set; }
+    public int Id { get; init; }
+    public required string Name { get; init; }
+    public required string Method { get; init; }
+    public DateTimeOffset LastModified { get; init; }
 
-    public IEnumerable<Item> Ingredients { get; set; } = Array.Empty<Item>();
+    public IEnumerable<Item> Ingredients { get; init; } = [];
 
     public class Item
     {
-        public string? Name { get; set; }
-        public string? Quantity { get; set; }
+        public required string Name { get; init; }
+        public required string Quantity { get; init; }
     }
 }
 

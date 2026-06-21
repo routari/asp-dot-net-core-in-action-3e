@@ -4,19 +4,18 @@ namespace RecipeApplication.Models;
 
 public class RecipeSummaryViewModel
 {
-    public int Id { get; set; }
-    public string? Name { get; set; }
-    public string? TimeToCook { get; set; }
-    public int NumberOfIngredients { get; set; }
+    public int Id { get; init; }
+    public required string Name { get; init; }
+    public TimeSpan TimeToCook { get; init; }
+    public int NumberOfIngredients { get; init; }
 
-    public static RecipeSummaryViewModel FromRecipe(Recipe recipe)
+    public string TimeToCookDisplay => $"{TimeToCook.Hours} hrs {TimeToCook.Minutes} mins";
+
+    public static RecipeSummaryViewModel FromRecipe(Recipe recipe) => new()
     {
-        return new RecipeSummaryViewModel
-        {
-            Id = recipe.RecipeId,
-            Name = recipe.Name,
-            TimeToCook = $"{recipe.TimeToCook.Hours}hrs {recipe.TimeToCook.Minutes}mins",
-        };
-    }
+        Id = recipe.RecipeId,
+        Name = recipe.Name,
+        TimeToCook = recipe.TimeToCook,
+    };
 }
 
